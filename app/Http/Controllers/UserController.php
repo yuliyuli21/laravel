@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function showProfile()
+    public function showProfile($id = 1, $name = 'John')
     {
-    	return 'i am lili';
+    	return 'id:'.$id.',name:'.$name;
     }
 
     
