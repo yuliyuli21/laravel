@@ -28,11 +28,21 @@ class SessionsController extends Controller
            'password' => 'required'
        ]);
        if (Auth::attempt($credentials, $request->has('remember'))) {
-           // 登录成功后的相关操作
-           session()->flash('success', '欢迎回来！');
-           //return redirect()->route('users.show', [Auth::user()]);
-           //将页面重定向到上一次请求尝试访问的页面上
-           return redirect()->intended(route('users.show', [Auth::user()]));
+          //判断邮箱是否激活
+          if (Auth::user()->activated) {
+            // 登录成功后的相关操作
+            session()->flash('success', '欢迎回来！');
+            //return redirect()->route('users.show', [Auth::user()]);
+            //将页面重定向到上一次请求尝试访问的页面上
+            return redirect()->intended(route('users.show', [Auth::user()]));
+
+          } else {
+            Auth::logout();
+            session()->flash('warning', '你的账号未激活，请检查邮箱中的注册邮件进行激活。');
+            return redirect('/home');
+
+          }
+           
 
        } else {
            // 登录失败后的相关操作
@@ -41,6 +51,7 @@ class SessionsController extends Controller
        }
        return;
     }
+
 
     public function destroy()
     {
