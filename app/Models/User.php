@@ -49,5 +49,27 @@ class User extends Authenticatable
         $this->notify(new ResetPassword($token));
     }
 
+    //指明一个用户可以有多条微博
+    public function statuses()
+    {
+        return $this->hasMany(Status::class);
+    }    
+
+    //展示微博
+    public function show(User $user)
+    {
+        $statuses = $user->statuses()
+                           ->orderBy('created_at', 'desc')
+                           ->paginate(30);
+        return view('users.show', compact('user', 'statuses'));
+    }
+
+    //动态流，获取微博最新动态
+    public function feed()
+    {
+        return $this->statuses()
+                    ->orderBy('created_at', 'desc');
+    }
+
 
 }
