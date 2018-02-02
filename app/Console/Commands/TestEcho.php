@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class SendEmails extends Command
+class TestEcho extends Command
 {
     /**
      * The name and signature of the console command.
@@ -37,6 +37,7 @@ class SendEmails extends Command
      */
     public function handle()
     {
-        echo 'hello kitty!'.PHP_EOL;
+        echo date('Y-m-d h:i:s',time());
+        echo ' hello yuli,this is a test case!'.PHP_EOL;
     }
 }
